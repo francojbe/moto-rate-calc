@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Professional financial theme with deep blue primary */
+    /* Glik brand colors */
     --background: 0 0% 98%;
     --foreground: 240 10% 15%;
 
@@ -18,7 +18,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 15%;
 
-    /* Main brand color - Deep Purple Blue #2d1b69 */
+    /* Main brand color - Glik Purple #2D1B69 */
     --primary: 255 65% 26%;
     --primary-foreground: 0 0% 100%;
     
@@ -32,7 +32,8 @@ All colors MUST be HSL.
     --muted: 240 5% 96%;
     --muted-foreground: 240 4% 46%;
 
-    --accent: 200 100% 45%;
+    /* Glik Orange #FF8A3D */
+    --accent: 25 100% 62%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 85% 60%;
@@ -41,7 +42,8 @@ All colors MUST be HSL.
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
 
-    --warning: 38 92% 50%;
+    /* Glik Orange as warning */
+    --warning: 25 100% 62%;
     --warning-foreground: 0 0% 100%;
 
     --border: 240 6% 90%;
@@ -50,9 +52,9 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-glow)) 100%);
-    --gradient-header: linear-gradient(180deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 100%);
+    /* Gradients - Glik brand */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+    --gradient-header: linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
     --gradient-card: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--secondary)) 100%);
     
     /* Shadows */
