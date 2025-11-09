@@ -14,7 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      motorcycles: {
+        Row: {
+          created_at: string
+          cuota_cruda: number
+          id: string
+          inicial: number
+          modelo: string
+          plazo: number
+          tipo: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          cuota_cruda: number
+          id?: string
+          inicial: number
+          modelo: string
+          plazo: number
+          tipo: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          cuota_cruda?: number
+          id?: string
+          inicial?: number
+          modelo?: string
+          plazo?: number
+          tipo?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
