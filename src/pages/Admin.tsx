@@ -35,6 +35,8 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [customPlazo, setCustomPlazo] = useState(false);
+  const [customTipo, setCustomTipo] = useState(false);
   const [formData, setFormData] = useState<Partial<Motorcycle>>({
     modelo: '',
     inicial: 0,
@@ -74,6 +76,8 @@ export default function Admin() {
     });
     setEditingId(null);
     setIsFormOpen(false);
+    setCustomPlazo(false);
+    setCustomTipo(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -128,6 +132,9 @@ export default function Admin() {
     setFormData(motorcycle);
     setEditingId(motorcycle.id);
     setIsFormOpen(true);
+    // Check if current values are custom
+    setCustomPlazo(![6, 12].includes(motorcycle.plazo));
+    setCustomTipo(!['BARATICO', 'SEMI NUEVAS', 'NUEVAS'].includes(motorcycle.tipo));
   };
 
   const handleDelete = async (id: string) => {
@@ -225,35 +232,98 @@ export default function Admin() {
 
                 <div className="space-y-2">
                   <Label htmlFor="plazo">Plazo</Label>
-                  <Select
-                    value={formData.plazo?.toString()}
-                    onValueChange={(value) => setFormData({ ...formData, plazo: parseInt(value) as 6 | 12 })}
-                  >
-                    <SelectTrigger id="plazo">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="6">6 meses</SelectItem>
-                      <SelectItem value="12">12 meses</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  {customPlazo ? (
+                    <div className="flex gap-2">
+                      <Input
+                        id="plazo"
+                        type="number"
+                        value={formData.plazo || ''}
+                        onChange={(e) => setFormData({ ...formData, plazo: parseInt(e.target.value) || 0 })}
+                        placeholder="Ingrese plazo en meses"
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setCustomPlazo(false);
+                          setFormData({ ...formData, plazo: 12 });
+                        }}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <Select
+                      value={formData.plazo?.toString()}
+                      onValueChange={(value) => {
+                        if (value === 'custom') {
+                          setCustomPlazo(true);
+                        } else {
+                          setFormData({ ...formData, plazo: parseInt(value) });
+                        }
+                      }}
+                    >
+                      <SelectTrigger id="plazo">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="6">6 meses</SelectItem>
+                        <SelectItem value="12">12 meses</SelectItem>
+                        <SelectItem value="custom">Otro (personalizado)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="tipo">Tipo</Label>
-                  <Select
-                    value={formData.tipo}
-                    onValueChange={(value) => setFormData({ ...formData, tipo: value as 'BARATICO' | 'SEMI NUEVAS' | 'NUEVAS' })}
-                  >
-                    <SelectTrigger id="tipo">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="BARATICO">BARATICO</SelectItem>
-                      <SelectItem value="SEMI NUEVAS">SEMI NUEVAS</SelectItem>
-                      <SelectItem value="NUEVAS">NUEVAS</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  {customTipo ? (
+                    <div className="flex gap-2">
+                      <Input
+                        id="tipo"
+                        type="text"
+                        value={formData.tipo || ''}
+                        onChange={(e) => setFormData({ ...formData, tipo: e.target.value })}
+                        placeholder="Ingrese tipo personalizado"
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setCustomTipo(false);
+                          setFormData({ ...formData, tipo: 'BARATICO' });
+                        }}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <Select
+                      value={formData.tipo}
+                      onValueChange={(value) => {
+                        if (value === 'custom') {
+                          setCustomTipo(true);
+                          setFormData({ ...formData, tipo: '' });
+                        } else {
+                          setFormData({ ...formData, tipo: value });
+                        }
+                      }}
+                    >
+                      <SelectTrigger id="tipo">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="BARATICO">BARATICO</SelectItem>
+                        <SelectItem value="SEMI NUEVAS">SEMI NUEVAS</SelectItem>
+                        <SelectItem value="NUEVAS">NUEVAS</SelectItem>
+                        <SelectItem value="custom">Otro (personalizado)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
                 </div>
               </div>
 
