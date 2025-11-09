@@ -23,15 +23,15 @@ serve(async (req) => {
     const data = await response.json();
     console.log('BCV API response:', data);
     
-    // Extract USD rate from the response
-    const usdRate = data?.currencies?.find((c: any) => c.code === 'USD')?.rate;
+    // Extract USD rate from the response (the API returns { dollar: number, date: string })
+    const usdRate = data?.dollar;
     
     if (!usdRate) {
       throw new Error('USD rate not found in BCV API response');
     }
 
     const result = {
-      rate: parseFloat(usdRate),
+      rate: parseFloat(usdRate.toString()),
       source: 'BCV',
       timestamp: new Date().toISOString()
     };
