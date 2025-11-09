@@ -20,15 +20,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Motorcycle } from '@/types/motorcycle';
-import { Plus, Pencil, Trash2, Save, X } from 'lucide-react';
+import { Plus, Pencil, Trash2, Save, X, ChevronDown } from 'lucide-react';
 
 export default function Admin() {
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [formData, setFormData] = useState<Partial<Motorcycle>>({
     modelo: '',
     inicial: 0,
@@ -67,6 +73,7 @@ export default function Admin() {
       tipo: 'BARATICO',
     });
     setEditingId(null);
+    setIsFormOpen(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -120,6 +127,7 @@ export default function Admin() {
   const handleEdit = (motorcycle: Motorcycle) => {
     setFormData(motorcycle);
     setEditingId(motorcycle.id);
+    setIsFormOpen(true);
   };
 
   const handleDelete = async (id: string) => {
@@ -156,8 +164,27 @@ export default function Admin() {
           </div>
 
           {/* Form */}
-          <Card className="p-6 shadow-medium">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <Collapsible open={isFormOpen} onOpenChange={setIsFormOpen}>
+            <Card className="shadow-medium">
+              <CollapsibleTrigger asChild>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full p-6 flex items-center justify-between hover:bg-muted/50"
+                >
+                  <div className="flex items-center gap-2">
+                    <Plus className="w-5 h-5 text-accent" />
+                    <span className="text-lg font-semibold">
+                      {editingId ? 'Editar Motocicleta' : 'Agregar Nueva Motocicleta'}
+                    </span>
+                  </div>
+                  <ChevronDown className={`w-5 h-5 transition-transform ${isFormOpen ? 'rotate-180' : ''}`} />
+                </Button>
+              </CollapsibleTrigger>
+              
+              <CollapsibleContent>
+                <div className="p-6 pt-0">
+                  <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="modelo">Modelo</Label>
@@ -252,7 +279,10 @@ export default function Admin() {
                 )}
               </div>
             </form>
-          </Card>
+                </div>
+              </CollapsibleContent>
+            </Card>
+          </Collapsible>
 
           {/* Table */}
           <Card className="overflow-hidden shadow-medium">
