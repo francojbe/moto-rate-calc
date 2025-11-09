@@ -33,8 +33,8 @@ export default function Admin() {
     modelo: '',
     inicial: 0,
     cuota_cruda: 0,
-    plazo: 18,
-    tipo: 'NUEVAS',
+    plazo: 12,
+    tipo: 'BARATICO',
   });
 
   const fetchMotorcycles = async () => {
@@ -63,8 +63,8 @@ export default function Admin() {
       modelo: '',
       inicial: 0,
       cuota_cruda: 0,
-      plazo: 18,
-      tipo: 'NUEVAS',
+      plazo: 12,
+      tipo: 'BARATICO',
     });
     setEditingId(null);
   };
@@ -200,15 +200,14 @@ export default function Admin() {
                   <Label htmlFor="plazo">Plazo</Label>
                   <Select
                     value={formData.plazo?.toString()}
-                    onValueChange={(value) => setFormData({ ...formData, plazo: parseInt(value) as 12 | 18 | 24 })}
+                    onValueChange={(value) => setFormData({ ...formData, plazo: parseInt(value) as 6 | 12 })}
                   >
                     <SelectTrigger id="plazo">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="6">6 meses</SelectItem>
                       <SelectItem value="12">12 meses</SelectItem>
-                      <SelectItem value="18">18 meses</SelectItem>
-                      <SelectItem value="24">24 meses</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -217,14 +216,15 @@ export default function Admin() {
                   <Label htmlFor="tipo">Tipo</Label>
                   <Select
                     value={formData.tipo}
-                    onValueChange={(value) => setFormData({ ...formData, tipo: value as 'NUEVAS' | 'USADAS' })}
+                    onValueChange={(value) => setFormData({ ...formData, tipo: value as 'BARATICO' | 'SEMI NUEVAS' | 'NUEVAS' })}
                   >
                     <SelectTrigger id="tipo">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="BARATICO">BARATICO</SelectItem>
+                      <SelectItem value="SEMI NUEVAS">SEMI NUEVAS</SelectItem>
                       <SelectItem value="NUEVAS">NUEVAS</SelectItem>
-                      <SelectItem value="USADAS">USADAS</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -293,6 +293,8 @@ export default function Admin() {
                           <span className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${
                             moto.tipo === 'NUEVAS' 
                               ? 'bg-success/10 text-success' 
+                              : moto.tipo === 'SEMI NUEVAS'
+                              ? 'bg-accent/10 text-accent'
                               : 'bg-warning/10 text-warning'
                           }`}>
                             {moto.tipo}

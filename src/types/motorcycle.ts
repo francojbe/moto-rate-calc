@@ -3,8 +3,8 @@ export interface Motorcycle {
   modelo: string;
   inicial: number;
   cuota_cruda: number;
-  plazo: 12 | 18 | 24;
-  tipo: 'NUEVAS' | 'USADAS';
+  plazo: 6 | 12;
+  tipo: 'BARATICO' | 'SEMI NUEVAS' | 'NUEVAS';
   created_at?: string;
   updated_at?: string;
 }

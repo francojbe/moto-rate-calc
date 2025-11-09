@@ -54,10 +54,10 @@ export default function Index() {
   };
 
   // Filter results by plazo and tipo
-  const results18Nuevas = results.filter(r => r.plazo === 18 && r.tipo === 'NUEVAS');
-  const results18Usadas = results.filter(r => r.plazo === 18 && r.tipo === 'USADAS');
-  const results24Nuevas = results.filter(r => r.plazo === 24 && r.tipo === 'NUEVAS');
-  const results24Usadas = results.filter(r => r.plazo === 24 && r.tipo === 'USADAS');
+  const results12Baratico = results.filter(r => r.plazo === 12 && r.tipo === 'BARATICO');
+  const results12SemiNuevas = results.filter(r => r.plazo === 12 && r.tipo === 'SEMI NUEVAS');
+  const results12Nuevas = results.filter(r => r.plazo === 12 && r.tipo === 'NUEVAS');
+  const results6Nuevas = results.filter(r => r.plazo === 6 && r.tipo === 'NUEVAS');
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -81,20 +81,20 @@ export default function Index() {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <ResultsTable 
-                  results={results18Nuevas} 
-                  title="18 Meses - NUEVAS" 
+                  results={results12Baratico} 
+                  title="12 Meses - BARATICO" 
                 />
                 <ResultsTable 
-                  results={results18Usadas} 
-                  title="18 Meses - USADAS" 
+                  results={results12SemiNuevas} 
+                  title="12 Meses - SEMI NUEVAS" 
                 />
                 <ResultsTable 
-                  results={results24Nuevas} 
-                  title="24 Meses - NUEVAS" 
+                  results={results12Nuevas} 
+                  title="12 Meses - NUEVAS" 
                 />
                 <ResultsTable 
-                  results={results24Usadas} 
-                  title="24 Meses - USADAS" 
+                  results={results6Nuevas} 
+                  title="6 Meses - NUEVAS" 
                 />
               </div>
             </div>
