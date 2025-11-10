@@ -22,15 +22,15 @@ export const Header = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="default" size="default" className="gap-2 shadow-md hover:shadow-lg transition-shadow">
-                <Menu className="w-5 h-5" />
+                <Menu className="w-5 h-5 text-white" />
                 Menú
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 bg-card border-border shadow-lg z-50">
               <DropdownMenuItem asChild>
                 <Link to="/admin" className="flex items-center gap-2 cursor-pointer">
-                  <Shield className="w-4 h-4" />
-                  <span>Administrar Motos</span>
+                  <Shield className="w-4 h-4 text-accent" />
+                  <span className="text-white">Administrar Motos</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>

@@ -101,7 +101,7 @@ export const Calculator = ({
             </Label>
             <div className="flex gap-2">
               <Input id="bcv-rate" type="number" step="0.01" value={bcvRate || ''} onChange={e => setBcvRate(parseFloat(e.target.value) || 0)} className="text-lg font-mono bg-card text-card-foreground" placeholder="0.00" />
-              <Button onClick={fetchRates} disabled={loading} variant="outline" size="icon" className="text-base bg-neutral-300 hover:bg-neutral-200 text-[#22222a]">
+              <Button onClick={fetchRates} disabled={loading} variant="outline" size="icon" className="text-base bg-white/90 hover:bg-white text-[#22222a] border-2 border-gray-300 hover:border-accent transition-all">
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               </Button>
             </div>
@@ -116,7 +116,7 @@ export const Calculator = ({
             </Label>
             <div className="flex gap-2">
               <Input id="binance-rate" type="number" step="0.01" value={binanceRate || ''} onChange={e => setBinanceRate(parseFloat(e.target.value) || 0)} className="text-lg font-mono bg-card text-card-foreground" placeholder="0.00" />
-              <Button onClick={fetchRates} disabled={loading} variant="outline" size="icon" className="bg-neutral-300 hover:bg-neutral-200 text-[#22222a]">
+              <Button onClick={fetchRates} disabled={loading} variant="outline" size="icon" className="bg-white/90 hover:bg-white text-[#22222a] border-2 border-gray-300 hover:border-accent transition-all">
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               </Button>
             </div>

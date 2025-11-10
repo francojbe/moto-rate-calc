@@ -142,12 +142,12 @@ export default function Admin() {
               <CollapsibleTrigger asChild>
                 <Button type="button" variant="ghost" className="w-full p-6 flex items-center justify-between hover:bg-muted/50">
                   <div className="flex items-center gap-2">
-                    <Plus className="w-5 h-5 text-accent" />
+                    <Plus className="w-5 h-5 text-white" />
                     <span className="text-lg font-semibold">
                       {editingId ? 'Editar Motocicleta' : 'Agregar Nueva Motocicleta'}
                     </span>
                   </div>
-                  <ChevronDown className={`w-5 h-5 transition-transform ${isFormOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-5 h-5 text-white transition-transform ${isFormOpen ? 'rotate-180' : ''}`} />
                 </Button>
               </CollapsibleTrigger>
               
@@ -193,7 +193,7 @@ export default function Admin() {
                             plazo: 12
                           });
                         }}>
-                        <X className="w-4 h-4" />
+                        <X className="w-4 h-4 text-white" />
                       </Button>
                     </div> : <Select value={formData.plazo?.toString()} onValueChange={value => {
                         if (value === 'custom') {
@@ -230,7 +230,7 @@ export default function Admin() {
                             tipo: 'BARATICO'
                           });
                         }}>
-                        <X className="w-4 h-4" />
+                        <X className="w-4 h-4 text-white" />
                       </Button>
                     </div> : <Select value={formData.tipo} onValueChange={value => {
                         if (value === 'custom') {
@@ -262,15 +262,15 @@ export default function Admin() {
               <div className="flex gap-3">
                 <Button type="submit" className="bg-primary hover:bg-primary-glow">
                   {editingId ? <>
-                      <Save className="w-4 h-4 mr-2" />
+                      <Save className="w-4 h-4 mr-2 text-white" />
                       Actualizar
                     </> : <>
-                      <Plus className="w-4 h-4 mr-2" />
+                      <Plus className="w-4 h-4 mr-2 text-white" />
                       Agregar
                     </>}
                 </Button>
                 {editingId && <Button type="button" variant="outline" onClick={resetForm}>
-                    <X className="w-4 h-4 mr-2" />
+                    <X className="w-4 h-4 mr-2 text-white" />
                     Cancelar
                   </Button>}
               </div>
@@ -317,10 +317,10 @@ export default function Admin() {
                         <TableCell className="text-center">
                           <div className="flex gap-2 justify-center">
                             <Button size="sm" variant="outline" onClick={() => handleEdit(moto)}>
-                              <Pencil className="w-4 h-4" />
+                              <Pencil className="w-4 h-4 text-accent" />
                             </Button>
                             <Button size="sm" variant="destructive" onClick={() => handleDelete(moto.id)}>
-                              <Trash2 className="w-4 h-4" />
+                              <Trash2 className="w-4 h-4 text-white" />
                             </Button>
                           </div>
                         </TableCell>
