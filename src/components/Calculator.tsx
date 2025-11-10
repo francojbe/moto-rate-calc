@@ -44,10 +44,6 @@ export const Calculator = ({
   useEffect(() => {
     // Fetch rates on component mount
     fetchRates();
-
-    // Set up interval to fetch rates every 5 minutes
-    const interval = setInterval(fetchRates, 5 * 60 * 1000);
-    return () => clearInterval(interval);
   }, []);
   const handleCalculate = () => {
     if (bcvRate > 0 && binanceRate > 0) {
