@@ -73,13 +73,13 @@ export const Calculator = ({ onCalculate }: CalculatorProps) => {
       <div className="space-y-6">
         <div className="space-y-2 text-center">
           <p className="text-sm text-card-foreground">
-            Las tasas se actualizan automáticamente cada 5 minutos
+            Las tasas se actualizan automáticamente todos los días a las 8:00 AM
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label htmlFor="bcv-rate" className="text-sm font-semibold">
+            <Label htmlFor="bcv-rate" className="text-sm font-semibold text-card-foreground">
               Tasa BCV (Bs.)
             </Label>
             <div className="flex gap-2">
@@ -101,13 +101,13 @@ export const Calculator = ({ onCalculate }: CalculatorProps) => {
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               </Button>
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-card-foreground/70">
               Haz clic para obtener la tasa oficial del BCV
             </p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="binance-rate" className="text-sm font-semibold">
+            <Label htmlFor="binance-rate" className="text-sm font-semibold text-card-foreground">
               Precio Binance P2P (Bs.)
             </Label>
             <div className="flex gap-2">
@@ -129,7 +129,7 @@ export const Calculator = ({ onCalculate }: CalculatorProps) => {
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               </Button>
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-card-foreground/70">
               Haz clic en el botón para obtener el precio actual de Binance P2P
             </p>
           </div>
