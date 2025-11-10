@@ -30,7 +30,7 @@ export const Header = () => {
               <DropdownMenuItem asChild>
                 <Link to="/admin" className="flex items-center gap-2 cursor-pointer">
                   <Shield className="w-4 h-4 text-accent" />
-                  <span className="text-white">Administrar Motos</span>
+                  <span className="text-[#2565eb]">Administrar Motos</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
