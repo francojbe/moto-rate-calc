@@ -40,8 +40,8 @@ export default function Index() {
       // Formula: TR@BCV = ((Cuota_Cruda_USD × Diferencial × 1.05) + 1.20) × Tasa_BCV
       const tr_bcv = ((moto.cuota_cruda * diferencial * 1.05) + 1.20) * bcv;
       
-      // Formula: TPP@BCV = TR@BCV - 15%
-      const tpp_bcv = tr_bcv - 15;
+      // Formula: TPP@BCV = TR@BCV - 15% (descuento del 15%)
+      const tpp_bcv = tr_bcv * 0.85;
 
       return {
         ...moto,
@@ -71,66 +71,12 @@ export default function Index() {
           {/* Results Section */}
           {results.length > 0 && (
             <div className="space-y-6">
-              <div className="text-center space-y-4">
+              <div className="text-center">
                 <h2 className="text-2xl font-bold text-foreground">Resultados del Cálculo</h2>
                 <p className="text-muted-foreground mt-2">
                   BCV: {bcvRate.toFixed(2)} Bs/USD | Binance: {binanceRate.toFixed(2)} Bs/USDT | 
                   Diferencial: {(binanceRate / bcvRate).toFixed(4)}
                 </p>
-                
-                {/* Ejemplo de cálculo con valores reales */}
-                {results.length > 0 && (
-                  <div className="bg-muted/30 rounded-lg p-6 max-w-3xl mx-auto text-left">
-                    <h3 className="text-lg font-semibold text-foreground mb-4">Ejemplo de Cálculo - {results[0].modelo}</h3>
-                    <div className="space-y-3 text-sm">
-                      <div className="border-b border-border pb-2">
-                        <p className="text-muted-foreground">Cuota Cruda: <span className="font-semibold text-foreground">${results[0].cuota_cruda.toFixed(2)} USD</span></p>
-                      </div>
-                      
-                      <div>
-                        <p className="font-medium text-foreground mb-1">1. Diferencial:</p>
-                        <p className="text-muted-foreground ml-4">
-                          Diferencial = Binance ÷ BCV = {binanceRate.toFixed(2)} ÷ {bcvRate.toFixed(2)} = <span className="font-semibold text-foreground">{(binanceRate / bcvRate).toFixed(4)}</span>
-                        </p>
-                      </div>
-
-                      <div>
-                        <p className="font-medium text-foreground mb-1">2. TR@BCV (Tasa Regular):</p>
-                        <p className="text-muted-foreground ml-4">
-                          TR@BCV = ((Cuota_Cruda × Diferencial × 1.05) + 1.20) × BCV
-                        </p>
-                        <p className="text-muted-foreground ml-4">
-                          TR@BCV = (({results[0].cuota_cruda.toFixed(2)} × {(binanceRate / bcvRate).toFixed(4)} × 1.05) + 1.20) × {bcvRate.toFixed(2)}
-                        </p>
-                        <p className="text-muted-foreground ml-4">
-                          TR@BCV = (({(results[0].cuota_cruda * (binanceRate / bcvRate)).toFixed(2)} × 1.05) + 1.20) × {bcvRate.toFixed(2)}
-                        </p>
-                        <p className="text-muted-foreground ml-4">
-                          TR@BCV = ({(results[0].cuota_cruda * (binanceRate / bcvRate) * 1.05).toFixed(2)} + 1.20) × {bcvRate.toFixed(2)}
-                        </p>
-                        <p className="text-muted-foreground ml-4">
-                          TR@BCV = {((results[0].cuota_cruda * (binanceRate / bcvRate) * 1.05) + 1.20).toFixed(2)} × {bcvRate.toFixed(2)}
-                        </p>
-                        <p className="text-muted-foreground ml-4">
-                          TR@BCV = <span className="font-semibold text-foreground">{results[0].tr_bcv.toFixed(2)} Bs</span>
-                        </p>
-                      </div>
-
-                      <div>
-                        <p className="font-medium text-foreground mb-1">3. TPP@BCV (Tasa Pronto Pago):</p>
-                        <p className="text-muted-foreground ml-4">
-                          TPP@BCV = TR@BCV - 15
-                        </p>
-                        <p className="text-muted-foreground ml-4">
-                          TPP@BCV = {results[0].tr_bcv.toFixed(2)} - 15
-                        </p>
-                        <p className="text-muted-foreground ml-4">
-                          TPP@BCV = <span className="font-semibold text-foreground">{results[0].tpp_bcv.toFixed(2)} Bs</span>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
