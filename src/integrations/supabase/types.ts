@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      exchange_rates: {
+        Row: {
+          bcv_rate: number
+          binance_rate: number
+          created_at: string
+          id: string
+        }
+        Insert: {
+          bcv_rate: number
+          binance_rate: number
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          bcv_rate?: number
+          binance_rate?: number
+          created_at?: string
+          id?: string
+        }
+        Relationships: []
+      }
       motorcycles: {
         Row: {
           created_at: string
