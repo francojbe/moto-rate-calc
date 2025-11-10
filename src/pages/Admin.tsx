@@ -142,12 +142,12 @@ export default function Admin() {
               <CollapsibleTrigger asChild>
                 <Button type="button" variant="ghost" className="w-full p-6 flex items-center justify-between hover:bg-muted/50">
                   <div className="flex items-center gap-2">
-                    <Plus className="w-5 h-5 text-white" />
-                    <span className="text-lg font-semibold">
+                    <Plus className="w-5 h-5 text-blue-600" />
+                    <span className="text-lg font-semibold text-blue-600">
                       {editingId ? 'Editar Motocicleta' : 'Agregar Nueva Motocicleta'}
                     </span>
                   </div>
-                  <ChevronDown className={`w-5 h-5 text-white transition-transform ${isFormOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-5 h-5 text-blue-600 transition-transform ${isFormOpen ? 'rotate-180' : ''}`} />
                 </Button>
               </CollapsibleTrigger>
               
