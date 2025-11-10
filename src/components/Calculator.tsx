@@ -17,33 +17,58 @@ export const Calculator = ({
   const [binanceRate, setBinanceRate] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const loadRatesFromDB = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('exchange_rates')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+      
+      if (error) throw error;
+      
+      if (data) {
+        setBcvRate(Number(data.bcv_rate));
+        setBinanceRate(Number(data.binance_rate));
+        setLastUpdate(new Date(data.created_at));
+      }
+    } catch (error) {
+      console.error('Error loading rates from database:', error);
+      toast.error('Error al cargar las tasas');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchRates = async () => {
     setLoading(true);
     try {
-      // Fetch both rates in parallel
-      const [bcvResponse, binanceResponse] = await Promise.all([supabase.functions.invoke<ExchangeRate>('get-bcv-rate'), supabase.functions.invoke<ExchangeRate>('get-binance-rate')]);
-      if (bcvResponse.error) {
-        toast.error('Error al obtener tasa BCV: ' + bcvResponse.error.message);
-      } else if (bcvResponse.data?.rate) {
-        setBcvRate(bcvResponse.data.rate);
+      const response = await supabase.functions.invoke('update-exchange-rates');
+      
+      if (response.error) {
+        toast.error('Error al actualizar tasas: ' + response.error.message);
+        return;
       }
-      if (binanceResponse.error) {
-        toast.error('Error al obtener tasa Binance: ' + binanceResponse.error.message);
-      } else if (binanceResponse.data?.rate) {
-        setBinanceRate(binanceResponse.data.rate);
+      
+      if (response.data) {
+        setBcvRate(response.data.bcv_rate);
+        setBinanceRate(response.data.binance_rate);
+        setLastUpdate(new Date());
+        toast.success('Tasas actualizadas y guardadas correctamente');
       }
-      setLastUpdate(new Date());
-      toast.success('Tasas actualizadas correctamente');
     } catch (error) {
-      console.error('Error fetching rates:', error);
+      console.error('Error updating rates:', error);
       toast.error('Error al actualizar las tasas');
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
-    // Fetch rates on component mount
-    fetchRates();
+    // Load rates from database on component mount
+    loadRatesFromDB();
   }, []);
   const handleCalculate = () => {
     if (bcvRate > 0 && binanceRate > 0) {
@@ -57,8 +82,16 @@ export const Calculator = ({
       <div className="space-y-6">
         <div className="space-y-2 text-center">
           <p className="text-sm text-card-foreground">
-            Las tasas se actualizan automáticamente todos los días a las 8:00 AM
+            Las tasas se actualizan automáticamente todos los días a las 8:00 AM (hora Venezuela)
           </p>
+          {lastUpdate && (
+            <p className="text-xs text-muted-foreground">
+              Última actualización: {lastUpdate.toLocaleString('es-VE', { 
+                dateStyle: 'short', 
+                timeStyle: 'short' 
+              })}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

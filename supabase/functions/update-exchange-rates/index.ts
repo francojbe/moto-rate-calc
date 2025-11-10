@@ -9,50 +9,7 @@ interface ExchangeRate {
   rate: number;
   source: string;
   timestamp: string;
-}
-
-async function getBCVRate(): Promise<number> {
-  console.log('Fetching BCV rate...');
-  try {
-    const response = await fetch('https://pydolarve.org/api/v1/dollar?page=bcv');
-    if (!response.ok) {
-      throw new Error(`BCV API returned ${response.status}`);
-    }
-    const data = await response.json();
-    console.log('BCV Response:', JSON.stringify(data));
-    
-    const rate = data?.monitors?.usd?.price || data?.price;
-    if (!rate) {
-      throw new Error('No rate found in BCV response');
-    }
-    
-    return parseFloat(rate);
-  } catch (error) {
-    console.error('Error fetching BCV rate:', error);
-    throw error;
-  }
-}
-
-async function getBinanceRate(): Promise<number> {
-  console.log('Fetching Binance rate...');
-  try {
-    const response = await fetch('https://pydolarve.org/api/v1/dollar?page=binance');
-    if (!response.ok) {
-      throw new Error(`Binance API returned ${response.status}`);
-    }
-    const data = await response.json();
-    console.log('Binance Response:', JSON.stringify(data));
-    
-    const rate = data?.monitors?.usdt?.price || data?.price;
-    if (!rate) {
-      throw new Error('No rate found in Binance response');
-    }
-    
-    return parseFloat(rate);
-  } catch (error) {
-    console.error('Error fetching Binance rate:', error);
-    throw error;
-  }
+  error?: string;
 }
 
 Deno.serve(async (req) => {
@@ -69,11 +26,30 @@ Deno.serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Fetch both rates
-    const [bcvRate, binanceRate] = await Promise.all([
-      getBCVRate(),
-      getBinanceRate()
-    ]);
+    // Call the working edge functions to get rates
+    console.log('Calling get-bcv-rate edge function...');
+    const bcvResponse = await supabase.functions.invoke<ExchangeRate>('get-bcv-rate');
+    
+    console.log('Calling get-binance-rate edge function...');
+    const binanceResponse = await supabase.functions.invoke<ExchangeRate>('get-binance-rate');
+
+    // Check for errors
+    if (bcvResponse.error) {
+      console.error('Error from get-bcv-rate:', bcvResponse.error);
+      throw new Error(`BCV function error: ${bcvResponse.error.message}`);
+    }
+
+    if (binanceResponse.error) {
+      console.error('Error from get-binance-rate:', binanceResponse.error);
+      throw new Error(`Binance function error: ${binanceResponse.error.message}`);
+    }
+
+    const bcvRate = bcvResponse.data?.rate;
+    const binanceRate = binanceResponse.data?.rate;
+
+    if (!bcvRate || !binanceRate) {
+      throw new Error('Missing rate data from edge functions');
+    }
 
     console.log(`Fetched rates - BCV: ${bcvRate}, Binance: ${binanceRate}`);
 
