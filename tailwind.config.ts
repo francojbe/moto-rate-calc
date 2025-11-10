@@ -57,6 +57,10 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "table-header": {
+          DEFAULT: "hsl(var(--table-header))",
+          foreground: "hsl(var(--table-header-foreground))",
+        },
       },
       boxShadow: {
         'soft': 'var(--shadow-soft)',

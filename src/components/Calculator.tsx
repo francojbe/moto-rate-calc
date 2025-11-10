@@ -69,22 +69,12 @@ export const Calculator = ({ onCalculate }: CalculatorProps) => {
   };
 
   return (
-    <Card className="p-6 shadow-medium bg-gradient-to-br from-card to-secondary border-border">
+    <Card className="p-6 shadow-soft bg-muted/30 border-border">
       <div className="space-y-6">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <div className="bg-accent/10 p-2 rounded-lg">
-              <CalcIcon className="w-6 h-6 text-accent" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold text-foreground">
-                Calculadora de Cuotas
-              </h2>
-              <p className="text-sm text-muted-foreground">
-                Las tasas se actualizan automáticamente cada 5 minutos
-              </p>
-            </div>
-          </div>
+        <div className="space-y-2 text-center">
+          <p className="text-sm text-card-foreground">
+            Las tasas se actualizan automáticamente cada 5 minutos
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -159,7 +149,7 @@ export const Calculator = ({ onCalculate }: CalculatorProps) => {
           <Button
             onClick={handleCalculate}
             disabled={loading || bcvRate === 0 || binanceRate === 0}
-            className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+            className="w-full bg-success hover:bg-success/90 text-success-foreground font-bold text-base py-6"
           >
             Calcular Cuotas
           </Button>
