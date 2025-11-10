@@ -305,11 +305,11 @@ export default function Admin() {
                   </TableHeader>
                   <TableBody>
                     {motorcycles.map(moto => <TableRow key={moto.id} className="hover:bg-muted/50 transition-colors">
-                        <TableCell className="font-medium bg-[#48338a]">{moto.modelo}</TableCell>
+                        <TableCell className="font-medium">{moto.modelo}</TableCell>
                         <TableCell className="text-right font-mono">${moto.inicial.toFixed(2)}</TableCell>
-                        <TableCell className="text-right font-mono bg-[#48338a]">{moto.cuota_cruda.toFixed(2)}</TableCell>
+                        <TableCell className="text-right font-mono">{moto.cuota_cruda.toFixed(2)}</TableCell>
                         <TableCell className="text-center">{moto.plazo} meses</TableCell>
-                        <TableCell className="text-center bg-[#48338a]">
+                        <TableCell className="text-center">
                           <span className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${moto.tipo === 'NUEVAS' ? 'bg-success/20 text-success border border-success/30' : moto.tipo === 'SEMI NUEVAS' ? 'bg-accent/20 text-accent border border-accent/30' : 'bg-warning/20 text-warning border border-warning/30'}`}>
                             {moto.tipo}
                           </span>
