@@ -288,13 +288,13 @@ export default function Admin() {
               </h3>
             </div>
             <div className="overflow-x-auto">
-              {loading ? <div className="p-8 text-center text-muted-foreground">
+              {loading ? <div className="p-8 text-center text-gray-600 font-medium">
                   Cargando...
-                </div> : motorcycles.length === 0 ? <div className="p-8 text-center text-muted-foreground">
+                </div> : motorcycles.length === 0 ? <div className="p-8 text-center text-gray-600 font-medium">
                   No hay motocicletas registradas
                 </div> : <Table>
                   <TableHeader>
-                    <TableRow className="bg-secondary hover:bg-secondary">
+                    <TableRow className="bg-gradient-to-r from-primary/90 to-primary-light/90 hover:from-primary hover:to-primary-light">
                       <TableHead className="font-bold">Modelo</TableHead>
                       <TableHead className="font-bold text-right">Inicial (USD)</TableHead>
                       <TableHead className="font-bold text-right">Cuota Cruda</TableHead>
@@ -310,7 +310,7 @@ export default function Admin() {
                         <TableCell className="text-right font-mono">{moto.cuota_cruda.toFixed(2)}</TableCell>
                         <TableCell className="text-center">{moto.plazo} meses</TableCell>
                         <TableCell className="text-center">
-                          <span className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${moto.tipo === 'NUEVAS' ? 'bg-success/10 text-success' : moto.tipo === 'SEMI NUEVAS' ? 'bg-accent/10 text-accent' : 'bg-warning/10 text-warning'}`}>
+                          <span className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${moto.tipo === 'NUEVAS' ? 'bg-success/20 text-success border border-success/30' : moto.tipo === 'SEMI NUEVAS' ? 'bg-accent/20 text-accent border border-accent/30' : 'bg-warning/20 text-warning border border-warning/30'}`}>
                             {moto.tipo}
                           </span>
                         </TableCell>
