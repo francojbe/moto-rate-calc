@@ -24,8 +24,8 @@ export const Header = () => {
           </Link>
 
           <Link to="/admin">
-            <Button variant="secondary" size="sm" className="gap-2">
-              <Settings className="w-4 h-4" />
+            <Button variant="default" size="default" className="gap-2 shadow-md hover:shadow-lg transition-shadow">
+              <Settings className="w-5 h-5" />
               Administrar Motos
             </Button>
           </Link>
