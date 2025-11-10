@@ -89,7 +89,7 @@ export const Calculator = ({ onCalculate }: CalculatorProps) => {
                 step="0.01"
                 value={bcvRate || ''}
                 onChange={(e) => setBcvRate(parseFloat(e.target.value) || 0)}
-                className="text-lg font-mono"
+                className="text-lg font-mono bg-card text-card-foreground"
                 placeholder="0.00"
               />
               <Button
@@ -117,7 +117,7 @@ export const Calculator = ({ onCalculate }: CalculatorProps) => {
                 step="0.01"
                 value={binanceRate || ''}
                 onChange={(e) => setBinanceRate(parseFloat(e.target.value) || 0)}
-                className="text-lg font-mono"
+                className="text-lg font-mono bg-card text-card-foreground"
                 placeholder="0.00"
               />
               <Button
