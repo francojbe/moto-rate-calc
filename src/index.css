@@ -32,8 +32,8 @@ All colors MUST be HSL.
     --muted: 240 5% 96%;
     --muted-foreground: 240 4% 46%;
 
-    /* Glik Green for highlights */
-    --accent: 142 70% 45%;
+    /* Blue for highlights that combines with purple */
+    --accent: 210 80% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 85% 60%;
