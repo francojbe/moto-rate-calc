@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Footer } from '@/components/Footer';
+import { Header } from '@/components/Header';
 import { Calculator } from '@/components/Calculator';
 import { ResultsTable } from '@/components/ResultsTable';
 import { supabase } from '@/integrations/supabase/client';
@@ -61,6 +62,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Header />
       <main className="flex-1 py-12 px-4">
         <div className="max-w-6xl mx-auto">
           {/* White content card matching Glik style */}
