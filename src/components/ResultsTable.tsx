@@ -41,7 +41,6 @@ export const ResultsTable = ({ results, title }: ResultsTableProps) => {
                 <TableCell className="font-medium text-card-foreground">{result.modelo}</TableCell>
                 <TableCell className="text-right font-mono text-card-foreground">
                   ${result.inicial.toLocaleString('es-VE', {
-                    minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   })}
                 </TableCell>
