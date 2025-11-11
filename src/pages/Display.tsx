@@ -3,23 +3,36 @@ import { supabase } from '@/integrations/supabase/client';
 import { Motorcycle, CalculationResult } from '@/types/motorcycle';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 import Autoplay from 'embla-carousel-autoplay';
 import { Header } from '@/components/Header';
+import { Gauge } from 'lucide-react';
 export default function Display() {
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
   const [bcvRate, setBcvRate] = useState<number>(0);
   const [binanceRate, setBinanceRate] = useState<number>(0);
   const [lastUpdate, setLastUpdate] = useState<string>('');
+  const [speed, setSpeed] = useState<number>(5000);
   const [groupedResults, setGroupedResults] = useState<Array<{
     title: string;
     results: CalculationResult[];
   }>>([]);
   const autoplayPlugin = useRef(Autoplay({
-    delay: 5000,
+    delay: speed,
     stopOnInteraction: false,
     stopOnMouseEnter: false,
     stopOnFocusIn: false
   }));
+
+  const handleSpeedChange = (newSpeed: number) => {
+    setSpeed(newSpeed);
+    if (autoplayPlugin.current) {
+      autoplayPlugin.current.reset();
+      // @ts-ignore - Accessing internal API
+      autoplayPlugin.current.options.delay = newSpeed;
+      autoplayPlugin.current.play();
+    }
+  };
   useEffect(() => {
     fetchData();
     // Auto-refresh every hour
@@ -91,15 +104,45 @@ export default function Display() {
   return <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex flex-col">
       <Header />
       
-      {/* Rates Info */}
+      {/* Rates Info and Speed Controls */}
       <div className="py-4 px-12 bg-card/50 backdrop-blur-sm border-b-2 border-border">
-        <div className="flex gap-8 text-2xl font-semibold justify-center">
+        <div className="flex gap-8 text-2xl font-semibold justify-center items-center flex-wrap">
           <div className="bg-primary/10 px-6 py-3 rounded-lg border border-primary/20">
             <span className="text-muted-foreground">BCV:</span>{' '}
             <span className="text-primary">{bcvRate.toFixed(2)} Bs/$</span>
           </div>
           
-          
+          {/* Speed Controls */}
+          <div className="flex items-center gap-3 bg-muted/30 px-4 py-2 rounded-lg border border-border">
+            <Gauge className="w-5 h-5 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">Velocidad:</span>
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                variant={speed === 3000 ? "default" : "outline"}
+                onClick={() => handleSpeedChange(3000)}
+                className="text-sm"
+              >
+                Rápido
+              </Button>
+              <Button
+                size="sm"
+                variant={speed === 5000 ? "default" : "outline"}
+                onClick={() => handleSpeedChange(5000)}
+                className="text-sm"
+              >
+                Normal
+              </Button>
+              <Button
+                size="sm"
+                variant={speed === 8000 ? "default" : "outline"}
+                onClick={() => handleSpeedChange(8000)}
+                className="text-sm"
+              >
+                Lento
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
 
