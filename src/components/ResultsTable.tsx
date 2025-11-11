@@ -29,34 +29,33 @@ export const ResultsTable = ({ results, title }: ResultsTableProps) => {
           <TableHeader>
             <TableRow className="bg-table-header hover:bg-table-header border-b-2 border-border">
               <TableHead className="font-bold text-table-header-foreground">Modelo</TableHead>
+              <TableHead className="font-bold text-table-header-foreground text-right">Inicial</TableHead>
               <TableHead className="font-bold text-table-header-foreground text-center">Plazo</TableHead>
-              <TableHead className="font-bold text-table-header-foreground text-right">Cuota Puntual ($)</TableHead>
-              <TableHead className="font-bold text-table-header-foreground text-right">Cuota Puntual (Bs.)</TableHead>
-              <TableHead className="font-bold text-table-header-foreground text-right">Cuota Regular ($)</TableHead>
-              <TableHead className="font-bold text-table-header-foreground text-right">Cuota Regular (Bs.)</TableHead>
+              <TableHead className="font-bold text-table-header-foreground text-right">TR@BCV</TableHead>
+              <TableHead className="font-bold text-table-header-foreground text-right">TPP@BCV</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {results.map((result) => (
               <TableRow key={result.id} className="hover:bg-muted/30 transition-colors border-b border-border/50">
                 <TableCell className="font-medium text-card-foreground">{result.modelo}</TableCell>
+                <TableCell className="text-right font-mono text-card-foreground">
+                  ${result.inicial.toLocaleString('es-VE', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })}
+                </TableCell>
                 <TableCell className="text-center text-card-foreground">
                   {result.plazo}
                 </TableCell>
                 <TableCell className="text-right font-mono text-card-foreground">
-                  ${result.cuota_cruda.toFixed(2)}
-                </TableCell>
-                <TableCell className="text-right font-mono text-card-foreground">
-                  Bs. {result.tpp_bcv.toLocaleString('es-VE', {
+                  Bs. {result.tr_bcv.toLocaleString('es-VE', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   })}
                 </TableCell>
                 <TableCell className="text-right font-mono text-card-foreground">
-                  ${(result.cuota_cruda * 1.175).toFixed(2)}
-                </TableCell>
-                <TableCell className="text-right font-mono text-card-foreground">
-                  Bs. {result.tr_bcv.toLocaleString('es-VE', {
+                  Bs. {result.tpp_bcv.toLocaleString('es-VE', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                   })}
