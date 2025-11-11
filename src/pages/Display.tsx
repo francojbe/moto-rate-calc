@@ -15,7 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import Autoplay from 'embla-carousel-autoplay';
-import glikLogo from '@/assets/glik-logo.png';
+import { Header } from '@/components/Header';
 
 export default function Display() {
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
@@ -110,31 +110,25 @@ export default function Display() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex flex-col">
-      {/* Header */}
-      <header className="py-8 px-12 bg-card/50 backdrop-blur-sm border-b-2 border-border">
-        <div className="flex items-center justify-between max-w-[1800px] mx-auto">
-          <div className="flex items-center gap-6">
-            <img src={glikLogo} alt="Glik" className="h-16 w-auto" />
-            <h1 className="text-4xl font-bold text-foreground">
-              Glik Financiamiento de Motos
-            </h1>
+      <Header />
+      
+      {/* Rates Info */}
+      <div className="py-4 px-12 bg-card/50 backdrop-blur-sm border-b-2 border-border">
+        <div className="flex gap-8 text-2xl font-semibold justify-center">
+          <div className="bg-primary/10 px-6 py-3 rounded-lg border border-primary/20">
+            <span className="text-muted-foreground">BCV:</span>{' '}
+            <span className="text-primary">{bcvRate.toFixed(2)} Bs/$</span>
           </div>
-          <div className="flex gap-8 text-2xl font-semibold">
-            <div className="bg-primary/10 px-6 py-3 rounded-lg border border-primary/20">
-              <span className="text-muted-foreground">BCV:</span>{' '}
-              <span className="text-primary">{bcvRate.toFixed(2)} Bs/$</span>
-            </div>
-            <div className="bg-secondary/10 px-6 py-3 rounded-lg border border-secondary/20">
-              <span className="text-muted-foreground">Binance:</span>{' '}
-              <span className="text-secondary">{binanceRate.toFixed(2)} Bs/$</span>
-            </div>
-            <div className="bg-accent/10 px-6 py-3 rounded-lg border border-accent/20">
-              <span className="text-muted-foreground">Dif:</span>{' '}
-              <span className="text-accent">{diferencial}</span>
-            </div>
+          <div className="bg-secondary/10 px-6 py-3 rounded-lg border border-secondary/20">
+            <span className="text-muted-foreground">Binance:</span>{' '}
+            <span className="text-secondary">{binanceRate.toFixed(2)} Bs/$</span>
+          </div>
+          <div className="bg-accent/10 px-6 py-3 rounded-lg border border-accent/20">
+            <span className="text-muted-foreground">Dif:</span>{' '}
+            <span className="text-accent">{diferencial}</span>
           </div>
         </div>
-      </header>
+      </div>
 
       {/* Carousel */}
       <main className="flex-1 flex items-center justify-center p-12">

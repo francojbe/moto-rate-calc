@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Settings, Menu, Shield } from 'lucide-react';
+import { Menu, Shield, Home, Monitor } from 'lucide-react';
 import glikLogo from '@/assets/glik-logo.png';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 export const Header = () => {
@@ -28,9 +28,21 @@ export const Header = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 bg-card border-border shadow-lg z-50">
               <DropdownMenuItem asChild>
+                <Link to="/" className="flex items-center gap-2 cursor-pointer">
+                  <Home className="w-4 h-4 text-accent" />
+                  <span className="text-foreground">Inicio</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link to="/admin" className="flex items-center gap-2 cursor-pointer">
                   <Shield className="w-4 h-4 text-accent" />
-                  <span className="text-[#2565eb]">Administrar Motos</span>
+                  <span className="text-foreground">Administrar Motos</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/display" className="flex items-center gap-2 cursor-pointer">
+                  <Monitor className="w-4 h-4 text-accent" />
+                  <span className="text-foreground">Pantalla Display</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
