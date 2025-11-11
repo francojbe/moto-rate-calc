@@ -59,8 +59,8 @@ export default function Display() {
   const calculateAndGroupResults = (bikes: Motorcycle[], bcv: number, binance: number) => {
     const diferencial = binance / bcv;
     const results: CalculationResult[] = bikes.map(moto => {
-      // Formula: TR@BCV = ((Cuota_Cruda_USD × Diferencial × 1.05) + 1.20) × Tasa_BCV
-      const tr_bcv = (moto.cuota_cruda * diferencial * 1.05 + 1.20) * bcv;
+      // Formula: TR@BCV = (Cuota_Cruda × Diferencial × 1.05 × 1.20) × Tasa_BCV
+      const tr_bcv = (moto.cuota_cruda * diferencial * 1.05 * 1.20) * bcv;
 
       // Formula: TPP@BCV = TR@BCV - 15% (descuento del 15%)
       const tpp_bcv = tr_bcv * 0.85;
