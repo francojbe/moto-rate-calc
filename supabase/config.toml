@@ -1,10 +1,1 @@
-project_id = "cwmlhbfpsubyrbwzdxjr"
-
-[functions.get-bcv-rate]
-verify_jwt = false
-
-[functions.get-binance-rate]
-verify_jwt = false
-
-[functions.update-exchange-rates]
-verify_jwt = false
+project_id = "pfsbmovzezhhekqukljn"
