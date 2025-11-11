@@ -171,7 +171,7 @@ export default function Display() {
       <footer className="py-6 px-12 bg-card/50 backdrop-blur-sm border-t-2 border-border">
         <div className="flex justify-between items-center max-w-[1800px] mx-auto text-xl text-muted-foreground">
           <p>Última actualización: {lastUpdate}</p>
-          <p className="font-semibold">Glik - Financiamiento de Motos</p>
+          <p className="font-semibold">Glik - Arrendamiento de Motos</p>
         </div>
       </footer>
     </div>;
