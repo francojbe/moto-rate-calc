@@ -333,8 +333,16 @@ export default function Admin() {
                   <TableBody>
                     {motorcycles.map(moto => <TableRow key={moto.id} className="hover:bg-muted/50 transition-colors">
                         <TableCell className="font-medium text-blue-600">{moto.modelo}</TableCell>
-                        <TableCell className="text-right font-mono text-blue-600">${moto.inicial.toFixed(2)}</TableCell>
-                        <TableCell className="text-right font-mono text-blue-600">{moto.cuota_cruda.toFixed(2)}</TableCell>
+                        <TableCell className="text-right font-mono text-blue-600">
+                          ${moto.inicial.toLocaleString('es-VE', {
+                            maximumFractionDigits: 2
+                          })}
+                        </TableCell>
+                        <TableCell className="text-right font-mono text-blue-600">
+                          {moto.cuota_cruda.toLocaleString('es-VE', {
+                            maximumFractionDigits: 2
+                          })}
+                        </TableCell>
                         <TableCell className="text-center text-blue-600">{moto.plazo} meses</TableCell>
                         <TableCell className="text-center">
                           <span className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${moto.tipo === 'NUEVAS' ? 'bg-success/20 text-success border border-success/30' : moto.tipo === 'SEMI NUEVAS' ? 'bg-accent/20 text-accent border border-accent/30' : 'bg-warning/20 text-warning border border-warning/30'}`}>
