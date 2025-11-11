@@ -54,11 +54,25 @@ export default function Index() {
     setResults(calculatedResults);
   };
 
-  // Filter results by plazo and tipo
-  const results12Baratico = results.filter(r => r.plazo === 12 && r.tipo === 'BARATICO');
-  const results12SemiNuevas = results.filter(r => r.plazo === 12 && r.tipo === 'SEMI NUEVAS');
-  const results12Nuevas = results.filter(r => r.plazo === 12 && r.tipo === 'NUEVAS');
-  const results6Nuevas = results.filter(r => r.plazo === 6 && r.tipo === 'NUEVAS');
+  // Agrupar resultados dinámicamente por plazo y tipo
+  const groupedResults = results.reduce((acc, result) => {
+    const key = `${result.plazo}-${result.tipo}`;
+    if (!acc[key]) {
+      acc[key] = {
+        plazo: result.plazo,
+        tipo: result.tipo,
+        results: []
+      };
+    }
+    acc[key].results.push(result);
+    return acc;
+  }, {} as Record<string, { plazo: number; tipo: string; results: CalculationResult[] }>);
+
+  // Convertir a array y ordenar por plazo (ascendente) y luego por tipo (alfabético)
+  const sortedGroups = Object.values(groupedResults).sort((a, b) => {
+    if (a.plazo !== b.plazo) return a.plazo - b.plazo;
+    return a.tipo.localeCompare(b.tipo);
+  });
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -107,22 +121,13 @@ export default function Index() {
             {/* Results Section */}
             {results.length > 0 && (
               <div className="space-y-8 mt-8">
-                <ResultsTable 
-                  results={results6Nuevas} 
-                  title="6 MESES NUEVA" 
-                />
-                <ResultsTable 
-                  results={results12Nuevas} 
-                  title="12 MESES - NUEVAS" 
-                />
-                <ResultsTable 
-                  results={results12SemiNuevas} 
-                  title="12 MESES - SEMI NUEVAS" 
-                />
-                <ResultsTable 
-                  results={results12Baratico} 
-                  title="12 MESES - BARATICO" 
-                />
+                {sortedGroups.map((group, index) => (
+                  <ResultsTable 
+                    key={`${group.plazo}-${group.tipo}-${index}`}
+                    results={group.results} 
+                    title={`${group.plazo} MESES - ${group.tipo.toUpperCase()}`} 
+                  />
+                ))}
               </div>
             )}
 
