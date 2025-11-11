@@ -51,7 +51,30 @@ Deno.serve(async (req) => {
       throw new Error('Missing rate data from edge functions');
     }
 
-    console.log(`Fetched rates - BCV: ${bcvRate}, Binance: ${binanceRate}`);
+    // Validate rates are positive numbers
+    if (typeof bcvRate !== 'number' || bcvRate <= 0) {
+      throw new Error(`Invalid BCV rate: ${bcvRate}. Must be a positive number.`);
+    }
+
+    if (typeof binanceRate !== 'number' || binanceRate <= 0) {
+      throw new Error(`Invalid Binance rate: ${binanceRate}. Must be a positive number.`);
+    }
+
+    // Validate rates are within reasonable ranges
+    const BCV_MIN = 1;
+    const BCV_MAX = 1000;
+    const BINANCE_MIN = 1;
+    const BINANCE_MAX = 10000;
+
+    if (bcvRate < BCV_MIN || bcvRate > BCV_MAX) {
+      throw new Error(`BCV rate ${bcvRate} is outside acceptable range (${BCV_MIN}-${BCV_MAX} Bs)`);
+    }
+
+    if (binanceRate < BINANCE_MIN || binanceRate > BINANCE_MAX) {
+      throw new Error(`Binance rate ${binanceRate} is outside acceptable range (${BINANCE_MIN}-${BINANCE_MAX} Bs)`);
+    }
+
+    console.log(`✓ Validated rates - BCV: ${bcvRate} Bs, Binance: ${binanceRate} Bs`);
 
     // Store rates in database
     const { data, error } = await supabase
