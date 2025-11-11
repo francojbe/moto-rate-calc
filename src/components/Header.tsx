@@ -36,13 +36,13 @@ export const Header = () => {
               <DropdownMenuItem asChild>
                 <Link to="/admin" className="flex items-center gap-2 cursor-pointer">
                   <Shield className="w-4 h-4 text-accent" />
-                  <span className="text-foreground">Administrar Motos</span>
+                  <span className="text-[#2d176d]">Administrar Motos</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link to="/display" className="flex items-center gap-2 cursor-pointer">
                   <Monitor className="w-4 h-4 text-accent" />
-                  <span className="text-foreground">Pantalla Display</span>
+                  <span className="text-[#2d176d]">Pantalla Display</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
