@@ -6,51 +6,44 @@ import { ResultsTable } from '@/components/ResultsTable';
 import { supabase } from '@/integrations/supabase/client';
 import { Motorcycle, CalculationResult } from '@/types/motorcycle';
 import glikLogo from '@/assets/glik-logo.png';
-
 export default function Index() {
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
   const [results, setResults] = useState<CalculationResult[]>([]);
   const [bcvRate, setBcvRate] = useState<number>(0);
   const [binanceRate, setBinanceRate] = useState<number>(0);
-
   useEffect(() => {
     fetchMotorcycles();
   }, []);
-
   const fetchMotorcycles = async () => {
     try {
-      const { data, error } = await supabase
-        .from('motorcycles')
-        .select('*')
-        .order('modelo', { ascending: true });
-
+      const {
+        data,
+        error
+      } = await supabase.from('motorcycles').select('*').order('modelo', {
+        ascending: true
+      });
       if (error) throw error;
       setMotorcycles((data || []) as Motorcycle[]);
     } catch (error) {
       console.error('Error fetching motorcycles:', error);
     }
   };
-
   const calculateResults = (bcv: number, binance: number) => {
     setBcvRate(bcv);
     setBinanceRate(binance);
-
     const diferencial = binance / bcv;
-
-    const calculatedResults: CalculationResult[] = motorcycles.map((moto) => {
+    const calculatedResults: CalculationResult[] = motorcycles.map(moto => {
       // Formula: TR@BCV = ((Cuota_Cruda_USD × Diferencial × 1.05) + 1.20) × Tasa_BCV
-      const tr_bcv = ((moto.cuota_cruda * diferencial * 1.05) + 1.20) * bcv;
-      
+      const tr_bcv = (moto.cuota_cruda * diferencial * 1.05 + 1.20) * bcv;
+
       // Formula: TPP@BCV = TR@BCV - 15% (descuento del 15%)
       const tpp_bcv = tr_bcv * 0.85;
-
       return {
         ...moto,
         tr_bcv,
-        tpp_bcv,
+        tpp_bcv
       };
     });
-
     setResults(calculatedResults);
   };
 
@@ -66,16 +59,18 @@ export default function Index() {
     }
     acc[key].results.push(result);
     return acc;
-  }, {} as Record<string, { plazo: number; tipo: string; results: CalculationResult[] }>);
+  }, {} as Record<string, {
+    plazo: number;
+    tipo: string;
+    results: CalculationResult[];
+  }>);
 
   // Convertir a array y ordenar por plazo (ascendente) y luego por tipo (alfabético)
   const sortedGroups = Object.values(groupedResults).sort((a, b) => {
     if (a.plazo !== b.plazo) return a.plazo - b.plazo;
     return a.tipo.localeCompare(b.tipo);
   });
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 py-12 px-4">
         <div className="max-w-6xl mx-auto">
@@ -85,11 +80,7 @@ export default function Index() {
             <div className="text-center mb-8">
               <div className="flex justify-center mb-6">
                 <div className="bg-primary p-3 rounded-xl inline-block">
-                  <img 
-                    src={glikLogo} 
-                    alt="Glik Logo" 
-                    className="w-16 h-16 object-contain"
-                  />
+                  <img src={glikLogo} alt="Glik Logo" className="w-16 h-16 object-contain" />
                 </div>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-card-foreground mb-3">
@@ -104,8 +95,7 @@ export default function Index() {
             <Calculator onCalculate={calculateResults} />
 
             {/* Results Info */}
-            {results.length > 0 && (
-              <div className="mt-8 mb-6">
+            {results.length > 0 && <div className="mt-8 mb-6">
                 <div className="bg-muted/30 rounded-lg p-4 text-center">
                   <p className="text-card-foreground text-sm md:text-base">
                     <span className="font-semibold">Tasa BCV actual:</span>{' '}
@@ -115,34 +105,20 @@ export default function Index() {
                     Binance: {binanceRate.toFixed(2)} Bs/USDT | Diferencial: {(binanceRate / bcvRate).toFixed(4)}
                   </p>
                 </div>
-              </div>
-            )}
+              </div>}
 
             {/* Results Section */}
-            {results.length > 0 && (
-              <div className="space-y-8 mt-8">
-                {sortedGroups.map((group, index) => (
-                  <ResultsTable 
-                    key={`${group.plazo}-${group.tipo}-${index}`}
-                    results={group.results} 
-                    title={`${group.plazo} MESES - ${group.tipo.toUpperCase()}`} 
-                  />
-                ))}
-              </div>
-            )}
+            {results.length > 0 && <div className="space-y-8 mt-8">
+                {sortedGroups.map((group, index) => <ResultsTable key={`${group.plazo}-${group.tipo}-${index}`} results={group.results} title={`${group.plazo} MESES - ${group.tipo.toUpperCase()}`} />)}
+              </div>}
 
-            {results.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground text-base md:text-lg">
-                  Presiona "Calcular" para ver los resultados de financiamiento
-                </p>
-              </div>
-            )}
+            {results.length === 0 && <div className="text-center py-12">
+                <p className="text-muted-foreground text-base md:text-lg">Presiona "Calcular" para ver los resultados de arrendamiento</p>
+              </div>}
           </div>
         </div>
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 }
