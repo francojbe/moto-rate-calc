@@ -30,7 +30,7 @@ export const Header = () => {
               <DropdownMenuItem asChild>
                 <Link to="/" className="flex items-center gap-2 cursor-pointer">
                   <Home className="w-4 h-4 text-accent" />
-                  <span className="text-foreground">Inicio</span>
+                  <span className="text-[#2d176d]">Inicio</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
