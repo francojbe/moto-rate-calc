@@ -12,10 +12,8 @@ export const Header = () => {
               <img src={glikLogo} alt="Glik Logo" className="w-12 h-12 object-contain" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Calculadora de Financiamiento</h1>
-              <p className="text-xs text-slate-100">
-                Sistema de cálculo con diferencial BCV/Binance
-              </p>
+              <h1 className="text-2xl font-bold text-foreground">Cotizador de productos</h1>
+              <p className="text-xs text-slate-100">ARRENDAMIENTO</p>
             </div>
           </Link>
 

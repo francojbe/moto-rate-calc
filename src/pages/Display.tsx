@@ -1,22 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Motorcycle, CalculationResult } from '@/types/motorcycle';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from '@/components/ui/carousel';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import Autoplay from 'embla-carousel-autoplay';
 import { Header } from '@/components/Header';
-
 export default function Display() {
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
   const [bcvRate, setBcvRate] = useState<number>(0);
@@ -26,42 +14,33 @@ export default function Display() {
     title: string;
     results: CalculationResult[];
   }>>([]);
-
-  const autoplayPlugin = useRef(
-    Autoplay({ 
-      delay: 5000, 
-      stopOnInteraction: false,
-      stopOnMouseEnter: false,
-      stopOnFocusIn: false
-    })
-  );
-
+  const autoplayPlugin = useRef(Autoplay({
+    delay: 5000,
+    stopOnInteraction: false,
+    stopOnMouseEnter: false,
+    stopOnFocusIn: false
+  }));
   useEffect(() => {
     fetchData();
     // Auto-refresh every hour
     const interval = setInterval(fetchData, 3600000);
     return () => clearInterval(interval);
   }, []);
-
   const fetchData = async () => {
     // Fetch motorcycles
-    const { data: motorcyclesData } = await supabase
-      .from('motorcycles')
-      .select('*')
-      .order('modelo');
-
+    const {
+      data: motorcyclesData
+    } = await supabase.from('motorcycles').select('*').order('modelo');
     if (motorcyclesData) {
       setMotorcycles(motorcyclesData);
     }
 
     // Fetch latest rates
-    const { data: ratesData } = await supabase
-      .from('exchange_rates')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
-
+    const {
+      data: ratesData
+    } = await supabase.from('exchange_rates').select('*').order('created_at', {
+      ascending: false
+    }).limit(1).single();
     if (ratesData) {
       setBcvRate(ratesData.bcv_rate);
       setBinanceRate(ratesData.binance_rate);
@@ -69,18 +48,12 @@ export default function Display() {
       calculateAndGroupResults(motorcyclesData || [], ratesData.bcv_rate, ratesData.binance_rate);
     }
   };
-
-  const calculateAndGroupResults = (
-    bikes: Motorcycle[],
-    bcv: number,
-    binance: number
-  ) => {
+  const calculateAndGroupResults = (bikes: Motorcycle[], bcv: number, binance: number) => {
     const diferencial = binance / bcv;
-
-    const results: CalculationResult[] = bikes.map((moto) => ({
+    const results: CalculationResult[] = bikes.map(moto => ({
       ...moto,
       tr_bcv: moto.inicial * bcv,
-      tpp_bcv: moto.cuota_cruda * diferencial,
+      tpp_bcv: moto.cuota_cruda * diferencial
     }));
 
     // Group by plazo and tipo
@@ -89,27 +62,25 @@ export default function Display() {
       if (!acc[key]) {
         acc[key] = {
           title: `${result.plazo} meses - ${result.tipo.toUpperCase()}`,
-          results: [],
+          results: []
         };
       }
       acc[key].results.push(result);
       return acc;
-    }, {} as Record<string, { title: string; results: CalculationResult[] }>);
-
+    }, {} as Record<string, {
+      title: string;
+      results: CalculationResult[];
+    }>);
     const sortedGroups = Object.values(grouped).sort((a, b) => {
       const plazoA = parseInt(a.title.split(' ')[0]);
       const plazoB = parseInt(b.title.split(' ')[0]);
       if (plazoA !== plazoB) return plazoA - plazoB;
       return a.title.localeCompare(b.title);
     });
-
     setGroupedResults(sortedGroups);
   };
-
   const diferencial = bcvRate > 0 ? (binanceRate / bcvRate).toFixed(4) : '0';
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex flex-col">
+  return <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex flex-col">
       <Header />
       
       {/* Rates Info */}
@@ -119,32 +90,20 @@ export default function Display() {
             <span className="text-muted-foreground">BCV:</span>{' '}
             <span className="text-primary">{bcvRate.toFixed(2)} Bs/$</span>
           </div>
-          <div className="bg-secondary/10 px-6 py-3 rounded-lg border border-secondary/20">
-            <span className="text-muted-foreground">Binance:</span>{' '}
-            <span className="text-secondary">{binanceRate.toFixed(2)} Bs/$</span>
-          </div>
-          <div className="bg-accent/10 px-6 py-3 rounded-lg border border-accent/20">
-            <span className="text-muted-foreground">Dif:</span>{' '}
-            <span className="text-accent">{diferencial}</span>
-          </div>
+          
+          
         </div>
       </div>
 
       {/* Carousel */}
       <main className="flex-1 flex items-center justify-center p-12">
         <div className="w-full max-w-[1800px]">
-          {groupedResults.length > 0 ? (
-            <Carousel
-              plugins={[autoplayPlugin.current]}
-              className="w-full"
-              opts={{
-                loop: true,
-                align: 'center',
-              }}
-            >
+          {groupedResults.length > 0 ? <Carousel plugins={[autoplayPlugin.current]} className="w-full" opts={{
+          loop: true,
+          align: 'center'
+        }}>
               <CarouselContent>
-                {groupedResults.map((group, index) => (
-                  <CarouselItem key={index}>
+                {groupedResults.map((group, index) => <CarouselItem key={index}>
                     <div className="space-y-8 animate-fade-in">
                       <h2 className="text-5xl font-bold text-center text-foreground mb-8">
                         {group.title}
@@ -171,49 +130,40 @@ export default function Display() {
                             </TableRow>
                           </TableHeader>
                           <TableBody>
-                            {group.results.map((result) => (
-                              <TableRow
-                                key={result.id}
-                                className="hover:bg-muted/30 transition-colors border-b-2 border-border/50"
-                              >
+                            {group.results.map(result => <TableRow key={result.id} className="hover:bg-muted/30 transition-colors border-b-2 border-border/50">
                                 <TableCell className="font-medium text-2xl text-card-foreground py-6">
                                   {result.modelo}
                                 </TableCell>
                                 <TableCell className="text-right font-mono text-2xl text-card-foreground py-6">
                                   ${result.inicial.toLocaleString('es-VE', {
-                                    maximumFractionDigits: 2
-                                  })}
+                            maximumFractionDigits: 2
+                          })}
                                 </TableCell>
                                 <TableCell className="text-center text-2xl text-card-foreground py-6">
                                   {result.plazo}
                                 </TableCell>
                                 <TableCell className="text-right font-mono text-2xl text-card-foreground py-6">
                                   Bs. {result.tr_bcv.toLocaleString('es-VE', {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
-                                  })}
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}
                                 </TableCell>
                                 <TableCell className="text-right font-mono text-2xl text-card-foreground py-6">
                                   Bs. {result.tpp_bcv.toLocaleString('es-VE', {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
-                                  })}
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })}
                                 </TableCell>
-                              </TableRow>
-                            ))}
+                              </TableRow>)}
                           </TableBody>
                         </Table>
                       </div>
                     </div>
-                  </CarouselItem>
-                ))}
+                  </CarouselItem>)}
               </CarouselContent>
-            </Carousel>
-          ) : (
-            <div className="text-center text-4xl text-muted-foreground">
+            </Carousel> : <div className="text-center text-4xl text-muted-foreground">
               Cargando datos...
-            </div>
-          )}
+            </div>}
         </div>
       </main>
 
@@ -224,6 +174,5 @@ export default function Display() {
           <p className="font-semibold">Glik - Financiamiento de Motos</p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 }
