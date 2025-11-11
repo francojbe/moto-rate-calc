@@ -17,22 +17,26 @@ export default function Display() {
     title: string;
     results: CalculationResult[];
   }>>([]);
-  const autoplayPlugin = useRef(Autoplay({
-    delay: speed,
-    stopOnInteraction: false,
-    stopOnMouseEnter: false,
-    stopOnFocusIn: false
-  }));
+  
+  // Recrear el plugin cada vez que cambia la velocidad
+  const [autoplayPlugin] = useState(() => 
+    Autoplay({
+      delay: 5000,
+      stopOnInteraction: false,
+      stopOnMouseEnter: false,
+      stopOnFocusIn: false
+    })
+  );
 
-  const handleSpeedChange = (newSpeed: number) => {
-    setSpeed(newSpeed);
-    if (autoplayPlugin.current) {
-      autoplayPlugin.current.reset();
+  // Actualizar el delay del plugin cuando cambia la velocidad
+  useEffect(() => {
+    if (autoplayPlugin) {
+      autoplayPlugin.stop();
       // @ts-ignore - Accessing internal API
-      autoplayPlugin.current.options.delay = newSpeed;
-      autoplayPlugin.current.play();
+      autoplayPlugin.options.delay = speed;
+      autoplayPlugin.play();
     }
-  };
+  }, [speed, autoplayPlugin]);
   useEffect(() => {
     fetchData();
     // Auto-refresh every hour
@@ -115,29 +119,29 @@ export default function Display() {
           {/* Speed Controls */}
           <div className="flex items-center gap-3 bg-muted/30 px-4 py-2 rounded-lg border border-border">
             <Gauge className="w-5 h-5 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">Velocidad:</span>
+            <span className="text-base text-muted-foreground">Velocidad:</span>
             <div className="flex gap-2">
               <Button
                 size="sm"
                 variant={speed === 3000 ? "default" : "outline"}
-                onClick={() => handleSpeedChange(3000)}
-                className="text-sm"
+                onClick={() => setSpeed(3000)}
+                className="text-base font-semibold"
               >
                 Rápido
               </Button>
               <Button
                 size="sm"
                 variant={speed === 5000 ? "default" : "outline"}
-                onClick={() => handleSpeedChange(5000)}
-                className="text-sm"
+                onClick={() => setSpeed(5000)}
+                className="text-base font-semibold"
               >
                 Normal
               </Button>
               <Button
                 size="sm"
                 variant={speed === 8000 ? "default" : "outline"}
-                onClick={() => handleSpeedChange(8000)}
-                className="text-sm"
+                onClick={() => setSpeed(8000)}
+                className="text-base font-semibold"
               >
                 Lento
               </Button>
@@ -149,7 +153,7 @@ export default function Display() {
       {/* Carousel */}
       <main className="flex-1 flex items-center justify-center p-12">
         <div className="w-full max-w-[1800px]">
-          {groupedResults.length > 0 ? <Carousel plugins={[autoplayPlugin.current]} className="w-full" opts={{
+          {groupedResults.length > 0 ? <Carousel plugins={[autoplayPlugin]} className="w-full" opts={{
           loop: true,
           align: 'center'
         }}>
