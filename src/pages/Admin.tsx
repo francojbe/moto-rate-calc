@@ -61,8 +61,38 @@ export default function Admin() {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.modelo || !formData.inicial || !formData.cuota_cruda) {
+    
+    // Validar que todos los campos existan
+    if (!formData.modelo || !formData.inicial || !formData.cuota_cruda || !formData.plazo || !formData.tipo) {
       toast.error('Por favor, completa todos los campos');
+      return;
+    }
+
+    // Validar que tipo no esté vacío (para evitar strings vacíos)
+    if (formData.tipo.trim() === '') {
+      toast.error('El tipo no puede estar vacío');
+      return;
+    }
+
+    // Validar valores numéricos positivos
+    if (formData.inicial <= 0 || formData.cuota_cruda <= 0 || formData.plazo <= 0) {
+      toast.error('Todos los valores deben ser mayores a 0');
+      return;
+    }
+
+    // Validar rangos razonables
+    if (formData.plazo < 1 || formData.plazo > 60) {
+      toast.error('El plazo debe estar entre 1 y 60 meses');
+      return;
+    }
+
+    if (formData.inicial < 0.01 || formData.inicial > 100000) {
+      toast.error('El inicial debe estar entre $0.01 y $100,000');
+      return;
+    }
+
+    if (formData.cuota_cruda < 0.01 || formData.cuota_cruda > 10000) {
+      toast.error('La cuota cruda debe estar entre $0.01 y $10,000');
       return;
     }
     try {
@@ -235,10 +265,7 @@ export default function Admin() {
                     </div> : <Select value={formData.tipo} onValueChange={value => {
                         if (value === 'custom') {
                           setCustomTipo(true);
-                          setFormData({
-                            ...formData,
-                            tipo: ''
-                          });
+                          // No establecer tipo vacío, mantener el valor actual
                         } else {
                           setFormData({
                             ...formData,
