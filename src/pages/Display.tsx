@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Motorcycle, CalculationResult } from '@/types/motorcycle';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
@@ -19,24 +19,15 @@ export default function Display() {
   }>>([]);
   
   // Recrear el plugin cada vez que cambia la velocidad
-  const [autoplayPlugin] = useState(() => 
-    Autoplay({
-      delay: 5000,
+  const autoplayPlugin = useMemo(
+    () => Autoplay({
+      delay: speed,
       stopOnInteraction: false,
       stopOnMouseEnter: false,
       stopOnFocusIn: false
-    })
+    }),
+    [speed]
   );
-
-  // Actualizar el delay del plugin cuando cambia la velocidad
-  useEffect(() => {
-    if (autoplayPlugin) {
-      autoplayPlugin.stop();
-      // @ts-ignore - Accessing internal API
-      autoplayPlugin.options.delay = speed;
-      autoplayPlugin.play();
-    }
-  }, [speed, autoplayPlugin]);
   useEffect(() => {
     fetchData();
     // Auto-refresh every hour
