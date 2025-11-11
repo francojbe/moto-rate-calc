@@ -61,7 +61,7 @@ export default function Admin() {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validar que todos los campos existan
     if (!formData.modelo || !formData.inicial || !formData.cuota_cruda || !formData.plazo || !formData.tipo) {
       toast.error('Por favor, completa todos los campos');
@@ -85,12 +85,10 @@ export default function Admin() {
       toast.error('El plazo debe estar entre 1 y 60 meses');
       return;
     }
-
     if (formData.inicial < 0.01 || formData.inicial > 100000) {
       toast.error('El inicial debe estar entre $0.01 y $100,000');
       return;
     }
-
     if (formData.cuota_cruda < 0.01 || formData.cuota_cruda > 10000) {
       toast.error('La cuota cruda debe estar entre $0.01 y $10,000');
       return;
@@ -161,9 +159,7 @@ export default function Admin() {
             <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-zinc-300">
               Panel de Administración
             </h2>
-            <p className="mt-2 text-gray-100">
-              Gestiona las motocicletas disponibles para financiamiento
-            </p>
+            <p className="mt-2 text-gray-100">Gestiona las motocicletas disponibles para arrendamiento</p>
           </div>
 
           {/* Form */}
@@ -335,13 +331,13 @@ export default function Admin() {
                         <TableCell className="font-medium text-blue-600">{moto.modelo}</TableCell>
                         <TableCell className="text-right font-mono text-blue-600">
                           ${moto.inicial.toLocaleString('es-VE', {
-                            maximumFractionDigits: 2
-                          })}
+                      maximumFractionDigits: 2
+                    })}
                         </TableCell>
                         <TableCell className="text-right font-mono text-blue-600">
                           {moto.cuota_cruda.toLocaleString('es-VE', {
-                            maximumFractionDigits: 2
-                          })}
+                      maximumFractionDigits: 2
+                    })}
                         </TableCell>
                         <TableCell className="text-center text-blue-600">{moto.plazo} meses</TableCell>
                         <TableCell className="text-center">
